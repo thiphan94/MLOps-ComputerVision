@@ -1,0 +1,117 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/cnnClassifier/pipeline/data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 3ee442398eab24b98e209d1dcd0da34d
+      size: 780
+    - path: src/cnnClassifier/pipeline/data_ingestion.py
+      hash: md5
+      md5: c63558e47dbbfcac2340b0f5ebe634aa
+      size: 881
+    outs:
+    - path: artifacts/data_ingestion/Tuberculosis(TB)
+      hash: md5
+      md5: 929d68b274ff1142e8d9676c9dc34c39.dir
+      size: 694557767
+      nfiles: 4200
+  prepare_base_model:
+    cmd: python src/cnnClassifier/pipeline/prepare_base_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 3ee442398eab24b98e209d1dcd0da34d
+      size: 780
+    - path: src/cnnClassifier/pipeline/prepare_base_model.py
+      hash: md5
+      md5: 5ca65808bbbff0039324fa8a7070d529
+      size: 965
+    params:
+      params.yaml:
+        CLASSES: 2
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.01
+        WEIGHTS: imagenet
+    outs:
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 34ca557b1419b485c297c2b082a90402.dir
+      size: 118059248
+      nfiles: 2
+  training:
+    cmd: python src/cnnClassifier/pipeline/training.py
+    deps:
+    - path: artifacts/data_ingestion/Tuberculosis(TB)
+      hash: md5
+      md5: 929d68b274ff1142e8d9676c9dc34c39.dir
+      size: 694557767
+      nfiles: 4200
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 34ca557b1419b485c297c2b082a90402.dir
+      size: 118059248
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 3ee442398eab24b98e209d1dcd0da34d
+      size: 780
+    - path: src/cnnClassifier/components/prepare_callbacks.py
+      hash: md5
+      md5: 25847dcaa177ac317821d811036afe3c
+      size: 973
+    - path: src/cnnClassifier/pipeline/training.py
+      hash: md5
+      md5: 08ea259f96e207e4c745f8c60f6632a7
+      size: 1190
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 16
+        EPOCHS: 1
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 4f64c6572782fa26ed6374ee625b53d9
+      size: 59340720
+  evaluation:
+    cmd: python src/cnnClassifier/pipeline/evaluation.py
+    deps:
+    - path: artifacts/data_ingestion/Tuberculosis(TB)
+      hash: md5
+      md5: 929d68b274ff1142e8d9676c9dc34c39.dir
+      size: 694557767
+      nfiles: 4200
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 4f64c6572782fa26ed6374ee625b53d9
+      size: 59340720
+    - path: config/config.yaml
+      hash: md5
+      md5: 3ee442398eab24b98e209d1dcd0da34d
+      size: 780
+    - path: src/cnnClassifier/pipeline/evaluation.py
+      hash: md5
+      md5: 1e336017bf4c517ff2bc7372e96e9f03
+      size: 835
+    params:
+      params.yaml:
+        BATCH_SIZE: 16
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: 3083d6550a295e75c99ca098c5519e73
+      size: 70
