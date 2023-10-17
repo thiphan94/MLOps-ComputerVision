@@ -1,6 +1,9 @@
 import os
 import json
+
 from boxsdk.exception import BoxValueError
+
+# from box.exception import BoxValueError
 import yaml
 import joblib
 from cnnClassifier import logger
@@ -63,8 +66,8 @@ def save_json(path: Path, data: dict):
         json.dump(data, f, indent=4)
 
     logger.info(f"json file saved at: {path}")
-    
-    
+
+
 @ensure_annotations
 def load_json(path: Path) -> ConfigBox:
     """load json files data
@@ -125,7 +128,7 @@ def get_size(path: Path) -> str:
 
 def decodeImage(imgstring, fileName):
     imgdata = base64.b64decode(imgstring)
-    with open(fileName, 'wb') as f:
+    with open(fileName, "wb") as f:
         f.write(imgdata)
         f.close()
 
