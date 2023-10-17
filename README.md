@@ -94,3 +94,8 @@ The deployment steps include:
 8. Update the main.py
 9. Update the dvc.yaml
 
+## Contributing
+If you want to contribute to this project, please fork the repository and create a pull request. We welcome contributions and improvements!
+
+## License
+This project is licensed under the MIT License.
