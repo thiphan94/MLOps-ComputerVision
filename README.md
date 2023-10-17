@@ -24,45 +24,45 @@ Follow these steps to set up the project on your local machine:
 
 ### Clone the repository:
 
-   ```
+   ```bash
    git clone git@github.com:thiphan94/MLOps-ComputerVision.git
    ```
 ### Create a Conda Environment  
-    ```
+    ```bash
     conda create -n cnn python=3.8 -y
     conda activate cnn
     ```
 
 ### Install Requirements 
-    ```
+    ```bash
     pip install -r requirements.txt
     ```
 ### Run the Application
-    ```
+    ```bash
     python app.py
     ```
-    ```
+    ```bash
     open up the local host and port
     ```
 
 ### DVC 
     Initialize DVC:
-    ```
+    ```bash
     dvc init
     ```
     Reproduce the data pipeline:
-    ```
+    ```bash
     dvc repro
     ```
     View the DVC pipeline DAG (Directed Acyclic Graph):
-    ```
+    ```bash
     dvc dag
     ```
 
 ## Azure CI/CD Deployment with GitHub Actions
 
 ### Run the following terminal commands:
-    ```
+    ```bash
     docker build -t tuberculosisapp.azurecr.io/tuberculosis:latest .
     docker login tuberculosisapp.azurecr.io
     docker push tuberculosisapp.azurecr.io/tuberculosis:latest
@@ -92,10 +92,3 @@ The deployment steps include:
 8. Update the main.py
 9. Update the dvc.yaml
 
-tuberculosisapp.azurecr.io
-
-7WNW6+M2BiItoqx0brRyhgctW4H2cTuujoVYnu2Knd+ACRAcf9mS
-
-docker build -t tuberculosisapp.azurecr.io/tuberculosis:latest .
-docker login tuberculosisapp.azurecr.io
-docker push tuberculosisapp.azurecr.io/tuberculosis:latest
